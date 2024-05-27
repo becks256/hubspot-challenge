@@ -8,7 +8,9 @@
     "node": ">=20.11.0"
   },
   "scripts": {
-    "start": "node ./src/index.js"
+    "build": "npm run clean && tsc",
+    "start": "npm run build && node dist/index.js",
+    "clean": "rm -rf dist"
   },
   "repository": {
     "type": "git",
