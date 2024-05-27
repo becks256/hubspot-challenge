@@ -8,8 +8,7 @@
 To run this project
 
 ``` shell
-npm run start
+nvm use
+npm install
+npm start
 ```
-
-> [!NOTE]
-> This project uses no external dependencies
