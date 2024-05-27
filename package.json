@@ -18,6 +18,7 @@
   "bugs": {
     "url": "https://github.com/becks256/hubspot-challenge/issues"
   },
+  "homepage": "https://github.com/becks256/hubspot-challenge#readme",
   "dependencies": {
     "typescript": "^5.4.5"
   },
