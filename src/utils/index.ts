@@ -64,6 +64,63 @@ export const mapUsersToMessages = (
     }
   })
 }
+
+/* example message:
+  {
+    fromUserId: 307620,
+    toUserId: 253496,
+    timestamp: 1533505429000,
+    content: 'Sometimes it is better to just walk away from things and go back to them later when you’re in a better frame of mind.',
+    user: {
+      firstName: 'Antonio',
+      lastName: 'Mackimmie',
+      avatar: 'control.png'
+    }
+  }
+*/
+
+export const consolidateConversations = (messages: MessageWithUser[]) => {
+  // each conversation should be an object with the following properties:
+  // avatar, firstName, lastName, mostRecentMessage, totalMessages, userId
+  // avatar, firstName, lastName, id are all from the user object
+  // mostRecentMessage should contain content, timestamp, and userId of the last message sender
+
+  const conversations: Conversation[] = []
+  messages.map((message) => {
+    const { user, content, timestamp, fromUserId } = message
+    const { avatar, firstName, lastName, id: userId } = user
+
+    const convoIndex = conversations.findIndex((item) => item.userId === userId)
+
+    if (convoIndex < 0) {
+      conversations.push({
+        avatar,
+        firstName,
+        lastName,
+        mostRecentMessage: {
+          content,
+          timestamp,
+          userId: fromUserId,
+        },
+        totalMessages: 1,
+        userId,
+      })
+      return
+    }
+
+    const convo = conversations[convoIndex]
+    convo.totalMessages += 1
+    if (timestamp > convo.mostRecentMessage.timestamp) {
+      convo.mostRecentMessage = {
+        content,
+        timestamp,
+        userId: fromUserId,
+      }
+    }
+  })
+
+  return conversations
+}
   const res = await fetch(POST_URL, {
     method: "POST",
     body: JSON.stringify(data),
