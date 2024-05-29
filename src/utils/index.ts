@@ -1,4 +1,13 @@
 import fs from "fs/promises"
+import {
+  Conversation,
+  Dataset,
+  Message,
+  MessageWithUser,
+  User,
+  UserMap,
+} from "../../index"
+
 const GET_URL =
   `https://candidate.hubteam.com/candidateTest/v3/problem/dataset?userKey=${process.env.API_TOKEN}`
 const POST_URL =
