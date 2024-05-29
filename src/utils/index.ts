@@ -228,19 +228,18 @@ export const createConversationsArray = (data: Dataset) => {
 
   return sortedConversationsArray
 }
+
+export const submitConversationsArray = async (data: {}) => {
   const res = await fetch(POST_URL, {
     method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify(data),
   })
   if (res.status === 200) {
     console.log("Data submitted successfully, you did it :D")
+  } else {
+    console.error("Failed to submit data:", res.statusText)
   }
-  return res.json()
-}
-
-export const formatHubSpotData = (data: {}) => {}
-
-export const testFetch = async () => {
-  const res = await fetch("https://jsonplaceholder.typicode.com/posts")
-  return res.json()
 }
