@@ -18,6 +18,11 @@ export const testFile = async (path: string) => {
   }
 }
 
+export const readFile = async (path: string) => {
+  const data = await fs.readFile(`${path}/data.json`, "utf-8")
+  return JSON.parse(data)
+}
+
 /* PRIMARY FUNCTIONS */
 export const getUserMessages = async () => {
   const res = await fetch(GET_URL, {
