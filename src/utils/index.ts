@@ -43,7 +43,27 @@ export const getUserMessages = async () => {
   return res.json()
 }
 
-export const submitHubSpotData = async (data: {}) => {
+export const mapUsersToMessages = (
+  messages: Message[],
+  users: User[],
+  currentUser: number
+) => {
+  const userMap: UserMap = {}
+  users.forEach(({ id, ...rest }) => {
+    userMap[id] = { id, ...rest }
+  })
+
+  return messages.map((message) => {
+    const user =
+      message.toUserId === currentUser
+        ? userMap[message.fromUserId]
+        : userMap[message.toUserId]
+    return {
+      ...message,
+      user,
+    }
+  })
+}
   const res = await fetch(POST_URL, {
     method: "POST",
     body: JSON.stringify(data),
