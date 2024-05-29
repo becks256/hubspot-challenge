@@ -19,7 +19,7 @@ export const testFile = async (path: string) => {
 }
 
 /* PRIMARY FUNCTIONS */
-export const getHubSpotData = async () => {
+export const getUserMessages = async () => {
   const res = await fetch(GET_URL, {
     method: "GET",
     headers: {
