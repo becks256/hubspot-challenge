@@ -1,8 +1,8 @@
 import fs from "fs/promises"
-
-const GET_URL = ""
-const POST_URL = ""
-const AUTH_TOKEN = ""
+const GET_URL =
+  `https://candidate.hubteam.com/candidateTest/v3/problem/dataset?userKey=${process.env.API_TOKEN}`
+const POST_URL =
+  `https://candidate.hubteam.com/candidateTest/v3/problem/result?userKey=${process.env.API_TOKEN}`
 
 /* HELPER FUNCTIONS */
 export const saveData = async (path: string, data: {}) => {
