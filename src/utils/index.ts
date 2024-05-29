@@ -121,6 +121,113 @@ export const consolidateConversations = (messages: MessageWithUser[]) => {
 
   return conversations
 }
+
+/*  create a list of conversations that your user has had with other users. 
+A conversation is defined by the other user you are sharing messages with, 
+the total number of messages sent between the two of you and the most recent 
+message which has been sent.
+We also expect the conversations to be ordered so that the conversations with 
+the most recent messages appear first.
+*/
+/* example input:
+{
+  "messages": [
+      {
+          "content": "The quick brown fox jumps over the lazy dog",
+          "fromUserId": 50210,
+          "timestamp": 1529338342000,
+          "toUserId": 67452
+      },
+      {
+          "content": "Pangrams originate in the discotheque",
+          "fromUserId": 67452,
+          "timestamp": 1529075415000,
+          "toUserId": 50210
+      },
+      {
+          "content": "Have you planned your holidays this year yet?",
+          "fromUserId": 67452,
+          "timestamp": 1529542953000,
+          "toUserId": 50210
+      },
+      {
+          "content": "Strange noises have been heard on the moors",
+          "fromUserId": 78596,
+          "timestamp": 1533112961000,
+          "toUserId": 50210
+      },
+      {
+          "content": "You go straight ahead for two hundred yards and then take the first right turn",
+          "fromUserId": 50210,
+          "timestamp": 1533197225000,
+          "toUserId": 78596
+      },
+      {
+          "content": "It's a privilege and an honour to have known you",
+          "fromUserId": 78596,
+          "timestamp": 1533118270000,
+          "toUserId": 50210
+      }
+  ],
+  "userId": 50210,
+  "users": [
+      {
+          "avatar": "octocat.jpg",
+          "firstName": "John",
+          "lastName": "Doe",
+          "id": 67452
+      },
+      {
+          "avatar": "genie.png",
+          "firstName": "Michael",
+          "lastName": "Crowley",
+          "id": 78596
+      }
+  ]
+}
+*/
+/* example output:
+{
+  "conversations": [
+      {
+          "avatar": "genie.png",
+          "firstName": "Michael",
+          "lastName": "Crowley",
+          "mostRecentMessage": {
+              "content": "You go straight ahead for two hundred yards and then take the first right turn",
+              "timestamp": 1533197225000,
+              "userId": 50210
+          },
+          "totalMessages": 3,
+          "userId": 78596
+      },
+      {
+          "avatar": "octocat.jpg",
+          "firstName": "John",
+          "lastName": "Doe",
+          "mostRecentMessage": {
+              "content": "Have you planned your holidays this year yet?",
+              "timestamp": 1529542953000,
+              "userId": 67452
+          },
+          "totalMessages": 3,
+          "userId": 67452
+    }
+  ]
+}
+*/
+
+export const createConversationsArray = (data: Dataset) => {
+  const { messages, userId, users } = data
+
+  const userMessages = mapUsersToMessages(messages, users, userId)
+  const conversationsArray = consolidateConversations(userMessages)
+  const sortedConversationsArray = conversationsArray.sort(
+    (a, b) => b.mostRecentMessage.timestamp - a.mostRecentMessage.timestamp
+  )
+
+  return sortedConversationsArray
+}
   const res = await fetch(POST_URL, {
     method: "POST",
     body: JSON.stringify(data),
